@@ -1,0 +1,44 @@
+services:
+  web:
+    container_name: eventosweb
+    #build:
+      #dockerfile: Dockerfile
+    image: alpine-apache-php:latest
+    ports: 
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ../app:/htdocs
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+  db:
+    container_name: eventosdb
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ../mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: eventos
+      MYSQL_DATABASE: eventos
+      MYSQL_USER: eventos
+      MYSQL_PASSWORD: eventos
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
+  phpmyadmin:
+    container_name: eventosphpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: eventosdb
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mynetwork
+networks: 
+  mynetwork:
+    driver: bridge

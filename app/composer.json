@@ -1,0 +1,16 @@
+{
+    "name": "edson/phpeventos",
+    "description": "Teste de PHP",
+    "autoload": {
+        "psr-4": {
+            "Edson\\Phpeventos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Edson Santos",
+            "email": "edson.santos@gmail.com"
+        }
+    ],
+    "require": {}
+}
