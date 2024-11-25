@@ -29,11 +29,11 @@ RUN apk --no-cache --update \
 
 EXPOSE 80 443
 
-ADD ./docker-entrypoint.sh /
+ADD ./docker/docker-entrypoint.sh /
 
 RUN chmod +x /docker-entrypoint.sh
 
-COPY ../app /htdocs
+COPY ./app /htdocs
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
         && php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
@@ -41,9 +41,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
         && php -r "unlink('composer-setup.php');" \
         && mv composer.phar /usr/local/bin/composer
 
-WORKDIR /htdocs/src
+WORKDIR /htdocs
 
-RUN composer install --no-dev
+RUN composer install
 
 RUN composer update && composer dump-autoload
 

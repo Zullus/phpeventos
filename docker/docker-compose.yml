@@ -1,14 +1,10 @@
 services:
   web:
     container_name: eventosweb
-    #build:
-      #dockerfile: Dockerfile
     image: alpine-apache-php:latest
     ports: 
       - "8080:80"
       - "8443:443"
-    volumes:
-      - ../app:/htdocs
     depends_on:
       - db
     networks:
@@ -18,6 +14,7 @@ services:
     image: mysql:5.7
     restart: always
     volumes:
+      - "../sql/baseicial.sql:/docker-entrypoint-initdb.d/start.sql"
       - ../mysqldata:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: eventos
