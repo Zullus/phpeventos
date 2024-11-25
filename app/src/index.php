@@ -4,7 +4,7 @@ $rotasExistentes = [
     '/src/lista-eventos' => '/lista-eventos.php',
     '/src/deletar-evento' => '/deletar-evento.php',
     '/src/modificar-evento' => '/modificar-evento.php',
-    '/src/retornar-evento' => '/retornar-evento.php',
+    '/src/retorna-evento' => '/retorna-evento.php',
 ];
 
 $rota = $_SERVER['REQUEST_URI'];

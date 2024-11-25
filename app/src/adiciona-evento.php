@@ -30,11 +30,6 @@ $descricao = $data['descricao'] ?? null;
 $dataInicio = $data['inicio'] ?? null;
 $dataFim = $data['fim'] ?? null;
 
-/*$titulo = $_POST['titulo'];
-$descricao = $_POST['descricao'];
-$dataInicio = $_POST['dataInicio'];
-$dataFim = $_POST['dataFim'];*/
-
 if(empty($titulo) || empty($descricao) || empty($dataInicio) || empty($dataFim)){
     header('Content-Type: application/json');
     http_response_code(400);

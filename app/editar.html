@@ -12,7 +12,7 @@
         <header>
             <div class="row">
                 <div class="col-12">
-                    <h1 title="Adicionar Evento"><i class="fa-solid fa-calendar-plus"></i> Adicionar Evento</h1>
+                    <h1 title="Modificar Evento"><i class="fa-solid fa-calendar-plus"></i> Modificar Evento</h1>
                 </div>
             </div>
             <div class="row">
@@ -24,8 +24,9 @@
         <div class="row">
             <div class="col-12">
                 <form action="src/adiciona-evento" method="POST">
+                    <input type="hidden" name="id" id="id" value="">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" required>
+                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" required value="">
                         <label for="titulo">Título</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -33,11 +34,11 @@
                         <label for="descricao">Descrição do Evento</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" id="dataInicio" name="dataInicio" required placeholder="Data de Início">
+                        <input type="datetime-local" class="form-control" id="dataInicio" name="dataInicio" required placeholder="Data de Início" value="">
                         <label for="dataInicio">Data de Início</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" id="dataFim" name="dataFim" required placeholder="Data de Termino">
+                        <input type="datetime-local" class="form-control" id="dataFim" name="dataFim" required placeholder="Data de Termino" value="">
                         <label for="dataFim" class="form-label">Data de Termino</label>
                     </div>
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Salvar</button>
@@ -46,7 +47,7 @@
         </div>
         <footer>
             <div class="row">
-                <div class="col-6 text-center ">
+                <div class="col-6 align-middle text-center">
                     Criado Por Edson Santos - Todos os Direitos Reservados &copy; 2024
                 </div>
                 <div class="col-3">
@@ -73,7 +74,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                Evento inserido com sucesso!
+                Evento alterdo com sucesso!
             </div>
         </div>
     </div>
@@ -92,17 +93,46 @@
     <script src="js/eventos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const url_atual = window.location.href;
+            url = url_atual.split('?');
+            if (url.length > 1) {
+                const id = url[1].split('=');
+                fetch('src/retorna-evento?id=' + id[1]).then(response => {
+                    response.json().then(data => {
+                        document.getElementById('id').value = data.id;
+                        document.getElementById('titulo').value = data.titulo;
+                        document.getElementById('descricao').value = data.descricao;
+                        document.getElementById('dataInicio').value = data.inicio;
+                        document.getElementById('dataFim').value = data.fim;
+                    });
+                });
+            }
+            else{
+                const toastEl = document.getElementById('toastError');
+                const toastError = document.getElementById('toast-error');
+                response.json().then(data => {
+                    toastError.textContent = "A URL não contém o ID do evento!";
+                });
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+
             const form = document.querySelector('form');
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
                 const dados = new FormData(form);
                 const evento = {
+                    id: dados.get('id'),
                     titulo: dados.get('titulo'),
                     descricao: dados.get('descricao'),
                     inicio: dados.get('dataInicio'),
                     fim: dados.get('dataFim')
                 };
-                fetch('src/adiciona-evento', {
+                fetch('src/modificar-evento', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
