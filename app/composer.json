@@ -3,7 +3,7 @@
     "description": "Teste de PHP",
     "autoload": {
         "psr-4": {
-            "Edson\\Phpeventos\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,7 @@
             "email": "edson.santos@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }
