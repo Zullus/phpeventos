@@ -81,3 +81,4 @@ Qualquer dúvida, o podem me chamar pelo meus contatos.
 
 * separar o app em dois microsserviços, onde o HTML poderia ficar em um servidor NGIX mais simples e o PHP em outro;
 * melhorar o retorno da página web com reloads automáticos;
+* achar um calendário que seja clicável
