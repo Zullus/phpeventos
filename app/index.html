@@ -82,6 +82,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const eventos = obterDadosJSONFetch('/src/lista-eventos');
+            //const eventos = obterDadosJSONFetch('http://localhost:8082/src/lista-eventos');
             eventos.then(data => {
                 const tbody = document.querySelector('tbody');
                 data.forEach(evento => {
@@ -89,8 +90,8 @@
                     tr.innerHTML = `
                         <td>${evento.titulo}</td>
                         <td>${evento.descricao}</td>
-                        <td>${evento.inicio}</td>
-                        <td>${evento.fim}</td>
+                        <td>${formataData(evento.inicio)}</td>
+                        <td>${formataData(evento.fim)}</td>
                         <td>
                             <a href="editar.html?id=${evento.id}" title="Editar Evento" class="btn btn-warning"><i class="fa-solid fa-edit"></i> Editar</a>
                             <button onclick="deletarEvento(${evento.id})" title="Excluir Evento" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Excluir</button>
