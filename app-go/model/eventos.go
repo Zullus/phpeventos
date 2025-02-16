@@ -5,9 +5,12 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"app-go/repository"
+
+	"github.com/gorilla/mux"
 )
 
 type Evento struct {
@@ -50,6 +53,10 @@ func ListaEventos(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	
 	rows, err := db.Query("SELECT * FROM eventos")
+	if err == sql.ErrNoRows {
+        log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+    }
 	if err != nil {
 		log.Fatal(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -101,12 +108,124 @@ func ListaEventos(w http.ResponseWriter, r *http.Request) {
 
 func DeletarEvento(w http.ResponseWriter, r *http.Request) {	
 	// Deleta um evento
+	vars := mux.Vars(r)
+	id := vars["id"]
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, "Id Inválido", http.StatusBadRequest)
+		return
+	}
+
+	evento, err := umEvento(intID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if evento == nil {
+		err404 := map[string]string{"error": "Evento não encontrado"}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err404)
+        return
+	}
 }
 
 func ModificarEvento(w http.ResponseWriter, r *http.Request) {
 	// Modifica um evento
+	vars := mux.Vars(r)
+	id := vars["id"]
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, "Id Inválido", http.StatusBadRequest)
+		return
+	}
+
+	evento, err := umEvento(intID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if evento == nil {
+		err404 := map[string]string{"error": "Evento não encontrado"}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err404)
+        return
+	}
+
+	
 }
 
 func RetornaEvento(w http.ResponseWriter, r *http.Request) {
 	// Retorna um evento
+	vars := mux.Vars(r)
+	id := vars["id"]
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, "Id Inválido", http.StatusBadRequest)
+		return
+	}
+
+	evento, err := umEvento(intID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if evento == nil {
+		err404 := map[string]string{"error": "Evento não encontrado"}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err404)
+        return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(evento)
+
+}
+
+func umEvento(id int) (*Evento, error) {
+
+	db, err := repository.Connect()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	defer db.Close()
+
+	var evento Evento
+	var updatedAt, deletedAt sql.NullTime
+	err = db.QueryRow("SELECT * FROM eventos WHERE id = ?", id).Scan(
+		&evento.ID,
+		&evento.Titulo,
+		&evento.Descricao,
+		&evento.Inicio.Time,
+		&evento.Fim.Time,
+		&evento.CreatedAt.Time,
+		&updatedAt,
+		&deletedAt,
+	)
+	if err == sql.ErrNoRows {
+        return nil, nil
+    }
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	if updatedAt.Valid {
+		customUpdatedAt := CustomTime{updatedAt.Time}
+		evento.UpdatedAt = &customUpdatedAt
+	}
+
+	if deletedAt.Valid {
+		customDeletedAt := CustomTime{deletedAt.Time}
+		evento.DeletedAt = &customDeletedAt
+	}
+
+	return &evento, nil
 }
