@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 
 	"app-go/repository"
@@ -110,13 +109,8 @@ func DeletarEvento(w http.ResponseWriter, r *http.Request) {
 	// Deleta um evento
 	vars := mux.Vars(r)
 	id := vars["id"]
-	intID, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, "Id Inválido", http.StatusBadRequest)
-		return
-	}
 
-	evento, err := umEvento(intID)
+	evento, err := umEvento(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -135,13 +129,8 @@ func ModificarEvento(w http.ResponseWriter, r *http.Request) {
 	// Modifica um evento
 	vars := mux.Vars(r)
 	id := vars["id"]
-	intID, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, "Id Inválido", http.StatusBadRequest)
-		return
-	}
 
-	evento, err := umEvento(intID)
+	evento, err := umEvento(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -162,13 +151,8 @@ func RetornaEvento(w http.ResponseWriter, r *http.Request) {
 	// Retorna um evento
 	vars := mux.Vars(r)
 	id := vars["id"]
-	intID, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, "Id Inválido", http.StatusBadRequest)
-		return
-	}
 
-	evento, err := umEvento(intID)
+	evento, err := umEvento(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -187,7 +171,7 @@ func RetornaEvento(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func umEvento(id int) (*Evento, error) {
+func umEvento(id string) (*Evento, error) {
 
 	db, err := repository.Connect()
 	if err != nil {
