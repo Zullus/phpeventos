@@ -5,7 +5,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -86,7 +86,7 @@ var listaDeEventos []Evento
 func AdicionaEvento(w http.ResponseWriter, r *http.Request) {
 	// Adiciona um evento
 
-    body, err := ioutil.ReadAll(r.Body)
+    body, err := io.ReadAll(r.Body)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
@@ -236,14 +236,11 @@ func ModificarEvento(w http.ResponseWriter, r *http.Request) {
 	// Modifica um evento
 
     // Ler o corpo da requisição como uma string
-    body, err := ioutil.ReadAll(r.Body)
+    body, err := io.ReadAll(r.Body)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-
-    // Imprimir o corpo da requisição no terminal
-    log.Println("Corpo da requisição:\n", string(body))
 
 	var eventoNovo EventoNovo
     err = json.Unmarshal(body, &eventoNovo)
@@ -292,7 +289,6 @@ func ModificarEvento(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(eventoAlterado)
 
 }
-
 func RetornaEvento(w http.ResponseWriter, r *http.Request) {
 	// Retorna um evento
 	vars := mux.Vars(r)
