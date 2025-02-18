@@ -19,7 +19,7 @@ func main(){
 	router.HandleFunc("/src/adiciona-evento", model.AdicionaEvento).Methods("POST")
     router.HandleFunc("/src/lista-eventos", model.ListaEventos).Methods("GET")
     router.HandleFunc("/src/deletar-evento/{id}", model.DeletarEvento).Methods("DELETE")
-    router.HandleFunc("/src/modificar-evento/{id}", model.ModificarEvento).Methods("PUT")
+    router.HandleFunc("/src/modificar-evento", model.ModificarEvento).Methods("PUT")
     router.HandleFunc("/src/retorna-evento/{id}", model.RetornaEvento).Methods("GET")
 
 	//Retorna erro 404
