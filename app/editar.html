@@ -23,8 +23,7 @@
         </header>
         <div class="row">
             <div class="col-12">
-                <!--<form action="src/adiciona-evento" method="POST">-->
-                <form action="http://localhost:8082/src/adiciona-evento" method="POST">
+                <form action="src/adiciona-evento" method="POST">
                     <input type="hidden" name="id" id="id" value="">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" required value="">
@@ -98,8 +97,7 @@
             url = url_atual.split('?');
             if (url.length > 1) {
                 const id = url[1].split('=');
-                //fetch('src/retorna-evento?id=' + id[1]).then(response => {
-                fetch('http://localhost:8082/src/retorna-evento/' + id[1]).then(response => {
+                fetch('src/retorna-evento?id=' + id[1]).then(response => {
                     response.json().then(data => {
                         document.getElementById('id').value = data.id;
                         document.getElementById('titulo').value = data.titulo;
@@ -134,8 +132,7 @@
                     inicio: dados.get('dataInicio'),
                     fim: dados.get('dataFim')
                 };
-                //fetch('src/modificar-evento', {
-                fetch('http://localhost:8082/src/modificar-evento', {
+                fetch('src/modificar-evento', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

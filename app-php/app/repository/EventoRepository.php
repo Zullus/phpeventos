@@ -13,7 +13,7 @@ class EventoRepository
 {
     public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
     }
     public function InserirEvento(InserirEventoDto $dto)

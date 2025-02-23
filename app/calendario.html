@@ -49,8 +49,7 @@
     <script src="js/eventos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            //const eventos = obterDadosJSONFetch('/src/lista-eventos');
-            const eventos = obterDadosJSONFetch('http://localhost:8082/src/lista-eventos');
+            const eventos = obterDadosJSONFetch('/src/lista-eventos');
                 eventos.then(data => {
                 const eventosArray = data.map(evento => ({
                     title: evento.titulo,   

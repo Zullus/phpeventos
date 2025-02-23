@@ -23,8 +23,7 @@
         </header>
         <div class="row">
             <div class="col-12">
-                <!--<form action="src/adiciona-evento" method="POST">-->
-                <form action="http://localhost:8082/src/adiciona-evento" method="POST">
+                <form action="src/adiciona-evento" method="POST">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" required>
                         <label for="titulo">Título</label>
@@ -103,8 +102,7 @@
                     inicio: dados.get('dataInicio'),
                     fim: dados.get('dataFim')
                 };
-                //fetch('src/adiciona-evento', {
-                fetch('http://localhost:8082/src/adiciona-evento', {
+                fetch('src/adiciona-evento', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

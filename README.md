@@ -19,35 +19,7 @@ phpeventos é uma aplicação web PHP para gerenciamento de eventos. Permite cri
    git clone https://github.com/Zullus/phpeventos
    ```
 
-2º. **Opte pela forma de executar o sistema**
-
-### Usando seu servidor MySQL
-
-Caso tenha um servidor MySQL configurado, execute em seu banco o arquivo
-
-   ```bash
-   /sql/baseinicial.sql
-   ```
-
-Esse arquivo irá criar a tabela _eventos_ e o usuário _eventos_ com senha _eventos_ em seu banco de dados.
-
-Crie um arquivo ".env" na pasta "phpeventos/app/src" à partir do arquivo ".env-example" com as configurações do seu banco de dados.
-
-Vá até a pasta "phpeventos/app/src" e execute o comando:
-
-   ```bash
-   composer install
-   ```
-
-Após, suba o servidor web do PHP com o comando:
-
-   ```bash
-   php -S localhost:8090
-   ```
-
-Abra o nagador em <http://localhost:8090>.
-
-A tela inicial deve ser exibida.
+2º. **Opte pela forma de executar o sistema com Docker**
 
 #### Usando Docker
 
@@ -79,6 +51,9 @@ Qualquer dúvida, o podem me chamar pelo meus contatos.
 
 #### TODO
 
-* separar o app em dois microsserviços, onde o HTML poderia ficar em um servidor NGIX mais simples e o PHP em outro;
 * melhorar o retorno da página web com reloads automáticos;
 * achar um calendário que seja clicável
+* adicionar o docker para rodar o sistema com Go
+* refazer o código da API em C#
+* refazer o código da API em Python
+* refazer o código da API em Java

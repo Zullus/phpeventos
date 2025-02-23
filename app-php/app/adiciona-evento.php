@@ -1,5 +1,4 @@
 <?php
-require '../vendor/autoload.php';
 
 use \App\controller\Evento;
 
@@ -25,13 +24,12 @@ if(empty($input)){
 
 $data = json_decode($input, true);
 
-$id = $data['id'] ?? null;
 $titulo = $data['titulo'] ?? null;
 $descricao = $data['descricao'] ?? null;
 $dataInicio = $data['inicio'] ?? null;
 $dataFim = $data['fim'] ?? null;
 
-if(empty($id) || empty($titulo) || empty($descricao) || empty($dataInicio) || empty($dataFim)){
+if(empty($titulo) || empty($descricao) || empty($dataInicio) || empty($dataFim)){
     header('Content-Type: application/json');
     http_response_code(400);
     echo json_encode([
@@ -59,10 +57,10 @@ if(strtotime($dataInicio) < strtotime(date('Y-m-d'))){
 }
 
 $evento = new Evento();
-$retorno = $evento->ModificarEvento($id, $titulo, $descricao, $dataInicio, $dataFim);
+$retorno = $evento->InserirEvento($titulo, $descricao, $dataInicio, $dataFim);
 
 header('Content-Type: application/json');
 echo json_encode([
     "id" => $retorno,
-    "mensagem" => 'Evento alterado com sucesso'
+    "mensagem" => 'Evento inserido com sucesso'
 ]);

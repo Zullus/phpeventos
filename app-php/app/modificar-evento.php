@@ -1,9 +1,8 @@
 <?php
-require '../vendor/autoload.php';
 
 use \App\controller\Evento;
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+if($_SERVER['REQUEST_METHOD'] !== 'PUT'){
     header('Content-Type: application/json');
     http_response_code(405);
     echo json_encode([
@@ -25,12 +24,13 @@ if(empty($input)){
 
 $data = json_decode($input, true);
 
+$id = $data['id'] ?? null;
 $titulo = $data['titulo'] ?? null;
 $descricao = $data['descricao'] ?? null;
 $dataInicio = $data['inicio'] ?? null;
 $dataFim = $data['fim'] ?? null;
 
-if(empty($titulo) || empty($descricao) || empty($dataInicio) || empty($dataFim)){
+if(empty($id) || empty($titulo) || empty($descricao) || empty($dataInicio) || empty($dataFim)){
     header('Content-Type: application/json');
     http_response_code(400);
     echo json_encode([
@@ -58,10 +58,10 @@ if(strtotime($dataInicio) < strtotime(date('Y-m-d'))){
 }
 
 $evento = new Evento();
-$retorno = $evento->InserirEvento($titulo, $descricao, $dataInicio, $dataFim);
+$retorno = $evento->ModificarEvento($id, $titulo, $descricao, $dataInicio, $dataFim);
 
 header('Content-Type: application/json');
 echo json_encode([
     "id" => $retorno,
-    "mensagem" => 'Evento inserido com sucesso'
+    "mensagem" => 'Evento alterado com sucesso'
 ]);

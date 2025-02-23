@@ -81,8 +81,7 @@
     <script src="js/eventos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            //const eventos = obterDadosJSONFetch('/src/lista-eventos');
-            const eventos = obterDadosJSONFetch('http://localhost:8082/src/lista-eventos');
+            const eventos = obterDadosJSONFetch('/src/lista-eventos');
             eventos.then(data => {
                 const tbody = document.querySelector('tbody');
                 data.forEach(evento => {
@@ -114,8 +113,7 @@
 
         async function deletarEvento(id) {
             try {
-                //const response = await fetch(`/src/deletar-evento?id=${id}`, { method: 'DELETE' });
-                const response = await fetch(`http://localhost:8082/src/deletar-evento/${id}`, { method: 'DELETE' });
+                const response = await fetch(`/src/deletar-evento?id=${id}`, { method: 'DELETE' });
                 if (response.ok) {
                     const toastEl = document.getElementById('toastDelete');
                     const toast = new bootstrap.Toast(toastEl);

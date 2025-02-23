@@ -1,3 +1,4 @@
 mysqldata/
-app/vendor/
+app-php/vendor/
 .env
+composer.lock
